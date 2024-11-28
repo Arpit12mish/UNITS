@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Units Browser</title>
+    <style>
+        body {
+            background: url('icons/usmarker.png') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent background for readability */
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            padding: 40px;
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+        }
+        h1 {
+            color: #000000;
+            font-size: 58px;
+            margin-bottom: 5px;
+        }
+        p {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: #000000;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 40px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #AB7ADF;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>You are browsing the internet from the <br> <strong>United States</strong></h1>
+        <img src="icons/internet.png" alt="Browsing Image" style="width: 400px; height: 400px; margin: 5px 0;">
+        <p>Powered by <strong>Units</strong></p>
+        <p>Visit any website with a different IP address using this Browser-in-Browser by opening a new tab.</p>
+        <a href="#" class="button" onclick="openNewTab()">Create One</a>
+    </div>
+
+    <script>
+        function openNewTab() {
+            window.location.href = 'https://www.google.com/';
+        }
+    </script>
+</body>
+</html>

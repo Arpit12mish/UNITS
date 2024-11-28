@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1F1F1F;
+            color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            background: linear-gradient(90deg, #AB7ADF, blue, #DD6ACF);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #DD6ACF;
+        }
+
+        header h1 {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, a:active {
+            color: #AB7ADF;
+            text-decoration: underline;
+        }
+
+        .result-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 30px;
+            border-radius: 10px;
+            background: linear-gradient(to bottom, #2C2C2C, #1F1F1F);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .result-container h2, .result-container h3 {
+            color: #AB7ADF;
+        }
+
+        .result-container .section {
+            margin-bottom: 30px;
+        }
+
+        .result-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .result-container th, .result-container td {
+            border: 1px solid #444;
+            padding: 12px;
+            text-align: left;
+            color: #DDDDDD;
+        }
+
+        .result-container th {
+            background-color: #AB7ADF;
+            color: #1F1F1F;
+        }
+
+        .pie-chart-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .suspicious {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .malicious { color: #DD6ACF; }
+        .harmless { color: green; }
+        .undetected { color: gray; }
+
+    </style>
+    <title>Units - Result</title>
+</head>
+<body>
+    <header>
+        <h1>Units</h1>
+        <a href="/">
+            <img src="https://i.ibb.co/wJGggWF/4114.webp" alt="Logo" height="50" width="50">
+        </a>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/cyberthreats">Cyber Threats</a></li>
+            <li><a href="/report">Report URL</a></li>
+            <li><a href="/faq">FAQ</a></li>
+        </ul>
+    </nav>
+
+    <div class="result-container">
+        <div class="section">
+            <h2>Result:</h2>
+            <div class="pie-chart-container">
+                <canvas id="pieChart" width="150" height="150"></canvas>
+            </div>
+            <p class="suspicious" style="color: {{ 'red' if is_suspicious else 'green' }}">Is Suspicious: {{ 'Yes' if is_suspicious else 'No' }}</p>
+            <p><strong>🔗 URL:</strong> {{ url }}</p>
+        </div>
+
+        <div class="center-section">
+            <h3>🔐 Units Analysis:</h3>
+            <p><strong>Last Analysis Date:</strong> {{ response_data.attributes.last_analysis_date|default('Null')|timestampformat }}</p>
+            <p><strong>Redirection Chain:</strong></p>
+            <ul>
+                {% for redirect_url in response_data.attributes.redirection_chain %}
+                    <li>{{ redirect_url }}</li>
+                {% endfor %}
+            </ul>
+
+            <p><strong>First Submission Date:</strong> {{ response_data.attributes.first_submission_date|timestampformat }}</p>
+            <p><strong>Last Modification Date:</strong> {{ response_data.attributes.last_modification_date|timestampformat }}</p>
+
+             {% if response_data.attributes.threat_names %}
+                <h4>Threat Names:</h4>
+                  <ul>
+                    {% for threat_name in response_data.attributes.threat_names %}
+                      <li>{{ threat_name }}</li>
+                      {% endfor %}
+                  </ul>
+              {% endif %}
+        </div>
+
+        {% if response_data.attributes.crowdsourced_context %}
+            <div class="right-section">
+                <h3>🌐 Crowdsourced Context:</h3>
+                 {% for context in response_data.attributes.crowdsourced_context %}
+                            <strong>Source:</strong> {{ context.source }}<br><br>
+                            <strong>Title:</strong> {{ context.title }}<br><br>
+                            <strong>Severity:</strong> {{ context.severity }}<br><br>
+                            <strong>Details:</strong> {{ context.details }}<br><br>
+                            <strong>Timestamp:</strong> {{ context.timestamp|timestampformat }}<br><br>
+                    {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="result-container">
+    <h2>Antivirus Results:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Engine</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set sorted_results = response_data.attributes.last_analysis_results.items() | sort(attribute='1.category') %}
+            
+            <!-- Prioritize malicious first -->
+            {% for engine, result in sorted_results if result.category == 'malicious' %}
+                <tr>
+                    <td>{{ engine }}</td>
+                    <td>
+                        <span style="color: red;">
+                            <i class="icon malicious-icon fa-solid fa-circle-exclamation"></i>
+                        </span>
+                        {{ result.result|capitalize }}
+                    </td>
+                </tr>
+            {% endfor %}
+
+            <!-- Display harmless results -->
+            {% for engine, result in sorted_results if result.category == 'harmless' %}
+                <tr>
+                    <td>{{ engine }}</td>
+                    <td>
+                        <span style="color: green;">
+                            <i class="icon harmless-icon far fa-check-circle"></i>
+                        </span>
+                        {{ result.result|capitalize }}
+                    </td>
+                </tr>
+            {% endfor %}
+
+            <!-- Display undetected results -->
+            {% for engine, result in sorted_results if result.category == 'undetected' %}
+                <tr>
+                    <td>{{ engine }}</td>
+                    <td>
+                        <span style="color: gray;">
+                            <i class="icon undetected-icon far fa-question-circle"></i>
+                        </span>
+                        {{ result.result|capitalize }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          {% if response_data and is_suspicious %}
+              alert('This site is suspicious!');
+          {% endif %}
+
+          {% if response_data and response_data.attributes.last_analysis_stats %}
+              var maliciousPercentage = {{ response_data.attributes.last_analysis_stats.malicious }};
+              var harmlessPercentage = {{ response_data.attributes.last_analysis_stats.harmless }};
+              var undetectedPercentage = {{ response_data.attributes.last_analysis_stats.undetected }};
+
+              var ctx = document.getElementById('pieChart').getContext('2d');
+
+              var data = {
+                  labels: ['Malicious', 'Harmless', 'Undetected'],
+                  datasets: [{
+                      data: [maliciousPercentage, harmlessPercentage, undetectedPercentage],
+                      backgroundColor: ['red', 'green', 'gray'],
+                  }]
+              };
+
+              var options = {
+                  responsive: true,
+                  maintainAspectRatio: false,
+              };
+
+              var pieChart = new Chart(ctx, {
+                  type: 'doughnut',
+                  data: data,
+                  options: options,
+              });
+          {% endif %}
+      });
+  </script>
+</body>
+</html>

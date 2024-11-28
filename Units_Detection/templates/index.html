@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="https://i.ibb.co/wJGggWF/4114.webp" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Units</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1F1F1F;
+            color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            background: linear-gradient(90deg, #AB7ADF, darkblue, #DD6ACF);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #DD6ACF;
+        }
+
+        header h1 {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        header img {
+            height: 50px;
+            width: 50px;
+        }
+
+        nav {
+            background-color: #000;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #AB7ADF;
+            text-decoration: underline;
+        }
+
+        .landing-section {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            background: linear-gradient(to bottom, #2C2C2C, #1F1F1F);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+
+        .landing-section h2 {
+            color: #AB7ADF;
+            margin-bottom: 20px;
+        }
+
+        .landing-section p {
+            margin-bottom: 30px;
+            color: #DDDDDD;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #333;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .search-container input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+            color: #000;
+        }
+
+        .search-container button {
+            
+            background: #000;
+            border: none;
+            padding: 10px;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .search-container button img {
+            height: 20px;
+            width: 20px;
+        }
+
+        .overlay {
+            display: none;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        footer {
+            background-color: #000;
+            color: #DD6ACF;
+            text-align: center;
+            padding: 20px;
+            margin-top: 90px;
+        }
+
+
+        footer p {
+            margin: 0;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Units</h1>
+        <a href="/">
+            <img src="https://i.ibb.co/wJGggWF/4114.webp" alt="Logo">
+        </a>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/cyberthreats">Cyber Threats</a></li>
+            <li><a href="/report">Report URL</a></li>
+            <li><a href="/faq">FAQ</a></li>
+        </ul>
+    </nav>
+    <section class="landing-section">
+        <div class="overlay" id="overlay">
+            <div class="loading-spinner"></div>
+            <br>
+            <h2>Analyzing the URL, please wait...</h2>
+        </div>
+        <h2>Secure Your Digital Presence</h2>
+        <p>Units is a platform dedicated to safeguarding users from online threats such as phishing scams, malware, and misinformation. We provide tools and resources to help users stay safe while browsing the internet.</p>
+        <form action="/check_url" method="POST">
+            <div class="search-container">
+                <input type="text" name="url" placeholder="Enter URL">
+                <button type="submit" onclick="showOverlay()">
+                    <img src="https://img.icons8.com/ios/50/ffffff/search--v1.png" alt="Search Icon">
+                </button>
+            </div>
+        </form>
+        
+    </section>
+    <footer>
+        <p>&copy; 2024 Units. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function showOverlay() {
+            document.getElementById('overlay').classList.add('active');
+        }
+    </script>
+</body>
+</html>
