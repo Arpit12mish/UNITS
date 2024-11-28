@@ -4,6 +4,7 @@ Units is a platform that safeguards users from online threats such as phishing s
 
 #PROBLEM STATEMENT - ADDRESSING THE GROWING THREAT OF MALWARE
 
+Units Malware Analysis - https://colab.research.google.com/drive/1yJWazkN5V6Eqf_cceL4T8zEdEbsizzfd?usp=sharing
 # BUSINESS MODEL
 
 1. Customized solutions, pay-per-use for real-time detection in serverless or edge computing environments, and monetization through threat intelligence sharing.
