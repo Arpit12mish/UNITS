@@ -1,4 +1,4 @@
-# UNITS (Our Brand Name)
+# UNITS 
 
 Units is a platform that safeguards users from online threats such as phishing scams, malware, and misinformation. We provide tools and resources to help users stay safe while browsing the internet.
 
